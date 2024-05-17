@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "11580782270",
+    "project_id": "yuknonton-30db9",
+    "storage_bucket": "yuknonton-30db9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11580782270:android:8aabb269258c4ce36090ef",
+        "android_client_info": {
+          "package_name": "com.dicoding.yuknonton"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQlsI8PqW3z-Ve0X52-3NHcHe5WH-ePQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

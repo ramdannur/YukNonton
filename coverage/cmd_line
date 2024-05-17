@@ -1,0 +1,1 @@
+genhtml coverage/lcov.info -o coverage --no-function-coverage -s -p /Users/mcomm00031/Personal/Projects/Dicoding/Submission/YukNonton/coverage
