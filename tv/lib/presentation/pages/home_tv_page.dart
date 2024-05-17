@@ -3,9 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:core/common/constants.dart';
 import 'package:core/common/presentation/pages/route_name.dart';
 import 'package:core/common/presentation/widgets/custom_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tv/domain/entities/tv.dart';
@@ -166,62 +164,71 @@ class TvListSlider extends StatelessWidget {
           return Container(
             width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.all(8.0),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(16)),
-              child: Row(
-                children: [
-                  Flexible(
-                    flex: 4,
-                    child: Container(
-                      color: Color.fromARGB(197, 0, 54, 81),
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            movie.name.toString(),
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 3,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 6.0,
-                          ),
-                          RatingBarIndicator(
-                            rating: (movie.voteAverage ?? 0) / 2,
-                            itemCount: 5,
-                            itemBuilder: (context, index) => const Icon(
-                              Icons.star,
-                              color: Colors.cyan,
-                            ),
-                            itemSize: 12,
-                          ),
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  RouteName.TvDetailPage,
-                                  arguments: movie.id,
-                                );
-                              },
-                              child: Text(
-                                "See Details",
-                                style: TextStyle(fontSize: 12),
-                              ))
-                        ],
+            child: Row(
+              children: [
+                Flexible(
+                  flex: 4,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16.0),
+                        bottomLeft: Radius.circular(16.0),
                       ),
+                      color: Color.fromARGB(197, 0, 54, 81),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          movie.name.toString(),
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 6.0,
+                        ),
+                        RatingBarIndicator(
+                          rating: (movie.voteAverage ?? 0) / 2,
+                          itemCount: 5,
+                          itemBuilder: (context, index) => const Icon(
+                            Icons.star,
+                            color: Colors.cyan,
+                          ),
+                          itemSize: 12,
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                RouteName.TvDetailPage,
+                                arguments: movie.id,
+                              );
+                            },
+                            child: Text(
+                              "See Details",
+                              style: TextStyle(fontSize: 12),
+                            ))
+                      ],
                     ),
                   ),
-                  Flexible(
-                    flex: 3,
+                ),
+                Flexible(
+                  flex: 3,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(16.0),
+                      bottomRight: Radius.circular(16.0),
+                    ),
                     child: CachedNetworkImage(
                       fit: BoxFit.fill,
                       height: double.maxFinite,
@@ -233,8 +240,8 @@ class TvListSlider extends StatelessWidget {
                           const Icon(Icons.error),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },
