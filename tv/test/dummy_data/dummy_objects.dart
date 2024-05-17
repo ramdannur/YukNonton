@@ -60,7 +60,7 @@ final testTvDetail = TvDetail(
     voteAverage: 4.6,
     voteCount: 900,
     seasons: [
-      SeasonEntity(id: 1, name: "Episode 1", episodeCount: 1),
+      SeasonEntity(id: 1, name: "Season 1", episodeCount: 1),
     ]);
 
 final tv = Tv(

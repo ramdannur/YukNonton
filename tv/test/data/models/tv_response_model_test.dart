@@ -31,7 +31,6 @@ void main() {
           json.decode(readJson('dummy_data/tv_list_response.json'));
       // act
       final result = TvResponse.fromJson(jsonMap);
-      print(result);
       // assert
       expect(result, tvResponseModel);
     });

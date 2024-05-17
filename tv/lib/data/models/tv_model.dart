@@ -2,21 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:tv/domain/entities/tv.dart';
 
 class TvModel extends Equatable {
-  final String? backdropPath;
-  final String firstAirDate;
-  final List<int> genreIds;
-  final int id;
-  final String name;
-  final List<String> originCountry;
-  final String originalLanguage;
-  final String originalName;
-  final String overview;
-  final double popularity;
-  final String posterPath;
-  final double voteAverage;
-  final int voteCount;
-
-  TvModel({
+  const TvModel({
     required this.backdropPath,
     required this.firstAirDate,
     required this.genreIds,
@@ -31,6 +17,20 @@ class TvModel extends Equatable {
     required this.voteAverage,
     required this.voteCount,
   });
+
+  final String? backdropPath;
+  final String firstAirDate;
+  final List<int> genreIds;
+  final int id;
+  final String name;
+  final List<String> originCountry;
+  final String originalLanguage;
+  final String originalName;
+  final String overview;
+  final double popularity;
+  final String posterPath;
+  final double voteAverage;
+  final int voteCount;
 
   factory TvModel.fromJson(Map<String, dynamic> json) => TvModel(
         backdropPath: json["backdrop_path"],

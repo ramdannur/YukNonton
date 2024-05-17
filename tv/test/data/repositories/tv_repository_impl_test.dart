@@ -20,9 +20,7 @@ void main() {
 
   setUp(() {
     mockRemoteDataSource = MockTvRemoteDataSource();
-    repository = TvRepositoryImpl(
-      remoteDataSource: mockRemoteDataSource
-    );
+    repository = TvRepositoryImpl(remoteDataSource: mockRemoteDataSource);
   });
 
   final tvModel = TvModel(
@@ -217,7 +215,7 @@ void main() {
         seasons: [
           Season(
               airDate: "2023-09-09",
-              episodeCount: 10,
+              episodeCount: 1,
               id: 1,
               name: "Season 1",
               overview: "overview",
