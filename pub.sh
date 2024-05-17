@@ -33,4 +33,25 @@ case $1 in
     cd ../watchlist
     fvm flutter pub get
     ;;
+  upgrade)
+    echo "upgrade dependencies"
+    fvm flutter pub outdated
+    fvm flutter pub upgrade --major-versions
+
+    cd core
+    fvm flutter pub outdated
+    fvm flutter pub upgrade --major-versions
+
+    cd ../movie
+    fvm flutter pub outdated
+    fvm flutter pub upgrade --major-versions
+
+    cd ../tv
+    fvm flutter pub outdated
+    fvm flutter pub upgrade --major-versions
+
+    cd ../watchlist
+    fvm flutter pub outdated
+    fvm flutter pub upgrade --major-versions
+    ;;
 esac
