@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'yuknonton-30db9.appspot.com',
     iosBundleId: 'com.dicoding.yuknonton',
   );
+
 }
