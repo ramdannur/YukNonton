@@ -1,5 +1,5 @@
+import 'package:core/common/data/datasources/remote/ssl_pinning_helper.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/io_client.dart';
 import 'package:movie/data/datasources/remote/movie_remote_data_source.dart';
 import 'package:movie/data/repositories/movie_repository_impl.dart';
 import 'package:movie/domain/repositories/movie_repository.dart';
@@ -126,16 +126,13 @@ void init() {
   );
 
   // data sources
-  locator.registerLazySingleton<MovieRemoteDataSource>(
-      () => MovieRemoteDataSourceImpl(client: locator()));
-  locator.registerLazySingleton<TvRemoteDataSource>(
-      () => TvRemoteDataSourceImpl(client: locator()));
-  locator.registerLazySingleton<WatchlistLocalDataSource>(
-      () => WatchlistLocalDataSourceImpl(databaseHelper: locator()));
+  locator.registerLazySingleton<MovieRemoteDataSource>(() => MovieRemoteDataSourceImpl(client: locator()));
+  locator.registerLazySingleton<TvRemoteDataSource>(() => TvRemoteDataSourceImpl(client: locator()));
+  locator.registerLazySingleton<WatchlistLocalDataSource>(() => WatchlistLocalDataSourceImpl(databaseHelper: locator()));
 
   // helper
   locator.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper());
 
   // external
-  locator.registerLazySingleton(() => IOClient());
+  locator.registerLazySingleton(() => SslPinningHelper.client);
 }

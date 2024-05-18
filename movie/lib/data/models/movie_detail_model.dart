@@ -3,6 +3,28 @@ import 'package:equatable/equatable.dart';
 import 'package:movie/domain/entities/movie_detail.dart';
 
 class MovieDetailResponse extends Equatable {
+  final bool adult;
+
+  final String? backdropPath;
+  final int budget;
+  final List<GenreModel> genres;
+  final String homepage;
+  final int id;
+  final String? imdbId;
+  final String originalLanguage;
+  final String originalTitle;
+  final String overview;
+  final double popularity;
+  final String? posterPath;
+  final String releaseDate;
+  final int revenue;
+  final int runtime;
+  final String status;
+  final String tagline;
+  final String title;
+  final bool video;
+  final double voteAverage;
+  final int voteCount;
   const MovieDetailResponse({
     required this.adult,
     required this.backdropPath,
@@ -27,35 +49,11 @@ class MovieDetailResponse extends Equatable {
     required this.voteCount,
   });
 
-  final bool adult;
-  final String? backdropPath;
-  final int budget;
-  final List<GenreModel> genres;
-  final String homepage;
-  final int id;
-  final String? imdbId;
-  final String originalLanguage;
-  final String originalTitle;
-  final String overview;
-  final double popularity;
-  final String posterPath;
-  final String releaseDate;
-  final int revenue;
-  final int runtime;
-  final String status;
-  final String tagline;
-  final String title;
-  final bool video;
-  final double voteAverage;
-  final int voteCount;
-
-  factory MovieDetailResponse.fromJson(Map<String, dynamic> json) =>
-      MovieDetailResponse(
+  factory MovieDetailResponse.fromJson(Map<String, dynamic> json) => MovieDetailResponse(
         adult: json["adult"],
         backdropPath: json["backdrop_path"],
         budget: json["budget"],
-        genres: List<GenreModel>.from(
-            json["genres"].map((x) => GenreModel.fromJson(x))),
+        genres: List<GenreModel>.from(json["genres"].map((x) => GenreModel.fromJson(x))),
         homepage: json["homepage"],
         id: json["id"],
         imdbId: json["imdb_id"],
@@ -74,6 +72,48 @@ class MovieDetailResponse extends Equatable {
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
       );
+
+  @override
+  List<Object?> get props => [
+        adult,
+        backdropPath,
+        budget,
+        genres,
+        homepage,
+        id,
+        imdbId,
+        originalLanguage,
+        originalTitle,
+        overview,
+        popularity,
+        posterPath,
+        releaseDate,
+        revenue,
+        runtime,
+        status,
+        tagline,
+        title,
+        video,
+        voteAverage,
+        voteCount,
+      ];
+
+  MovieDetail toEntity() {
+    return MovieDetail(
+      adult: adult,
+      backdropPath: backdropPath,
+      genres: genres.map((genre) => genre.toEntity()).toList(),
+      id: id,
+      originalTitle: originalTitle,
+      overview: overview,
+      posterPath: posterPath,
+      releaseDate: releaseDate,
+      runtime: runtime,
+      title: title,
+      voteAverage: voteAverage,
+      voteCount: voteCount,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "adult": adult,
@@ -98,47 +138,4 @@ class MovieDetailResponse extends Equatable {
         "vote_average": voteAverage,
         "vote_count": voteCount,
       };
-
-  MovieDetail toEntity() {
-    return MovieDetail(
-      adult: adult,
-      backdropPath: backdropPath,
-      genres: genres.map((genre) => genre.toEntity()).toList(),
-      id: id,
-      originalTitle: originalTitle,
-      overview: overview,
-      posterPath: posterPath,
-      releaseDate: releaseDate,
-      runtime: runtime,
-      title: title,
-      voteAverage: voteAverage,
-      voteCount: voteCount,
-    );
-  }
-
-  @override
-  // TODO: implement props
-  List<Object?> get props => [
-        adult,
-        backdropPath,
-        budget,
-        genres,
-        homepage,
-        id,
-        imdbId,
-        originalLanguage,
-        originalTitle,
-        overview,
-        popularity,
-        posterPath,
-        releaseDate,
-        revenue,
-        runtime,
-        status,
-        tagline,
-        title,
-        video,
-        voteAverage,
-        voteCount,
-      ];
 }

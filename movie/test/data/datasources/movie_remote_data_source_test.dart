@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:core/common/data/datasources/remote/config.dart';
 import 'package:core/common/exception.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -12,8 +13,8 @@ import '../../helpers/test_helper.mocks.dart';
 import '../../json_reader.dart';
 
 void main() {
-  const apiKey = 'api_key=2174d146bb9c0eab47529b2e77d6b526';
-  const baseUrl = 'https://api.themoviedb.org/3';
+  const apiKey = theMovieDbApiKey;
+  const baseUrl = theMovieDbBaseUrl;
 
   late MovieRemoteDataSourceImpl dataSource;
   late MockHttpClient mockHttpClient;

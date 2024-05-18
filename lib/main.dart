@@ -1,4 +1,5 @@
 import 'package:core/common/constants.dart';
+import 'package:core/common/data/datasources/remote/ssl_pinning_helper.dart';
 import 'package:core/common/presentation/pages/route_name.dart';
 import 'package:core/common/presentation/widgets/empty_page.dart';
 import 'package:core/common/utils.dart';
@@ -38,9 +39,12 @@ import 'package:yuknonton/injection.dart' as di;
 import 'package:yuknonton/presentation/pages/about_page.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SslPinningHelper.init();
+
   di.init();
 
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     name: "yuknonton",
     options: DefaultFirebaseOptions.currentPlatform,

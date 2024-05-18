@@ -5,8 +5,7 @@ import 'package:watchlist/data/models/watchlist_table.dart';
 
 class TvDetail extends Equatable {
   final bool adult;
-  final String backdropPath;
-
+  final String? backdropPath;
   final List<int> episodeRunTime;
   final String firstAirDate;
   final List<Genre> genres;
@@ -17,7 +16,6 @@ class TvDetail extends Equatable {
   final String lastAirDate;
   final String name;
   final dynamic nextEpisodeToAir;
-
   final int numberOfEpisodes;
   final int numberOfSeasons;
   final List<String> originCountry;
@@ -25,8 +23,7 @@ class TvDetail extends Equatable {
   final String originalName;
   final String overview;
   final double popularity;
-  final String posterPath;
-
+  final String? posterPath;
   final String status;
   final String tagline;
   final String type;

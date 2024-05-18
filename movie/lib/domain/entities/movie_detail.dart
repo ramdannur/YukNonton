@@ -3,6 +3,19 @@ import 'package:equatable/equatable.dart';
 import 'package:watchlist/data/models/watchlist_table.dart';
 
 class MovieDetail extends Equatable {
+  final bool adult;
+  final String? backdropPath;
+  final List<Genre> genres;
+  final int id;
+  final String originalTitle;
+  final String overview;
+  final String? posterPath;
+  final String releaseDate;
+  final int runtime;
+  final String title;
+  final double voteAverage;
+  final int voteCount;
+
   const MovieDetail({
     required this.adult,
     required this.backdropPath,
@@ -18,26 +31,6 @@ class MovieDetail extends Equatable {
     required this.voteCount,
   });
 
-  final bool adult;
-  final String? backdropPath;
-  final List<Genre> genres;
-  final int id;
-  final String originalTitle;
-  final String overview;
-  final String posterPath;
-  final String releaseDate;
-  final int runtime;
-  final String title;
-  final double voteAverage;
-  final int voteCount;
-
-  WatchlistTable toWatchlist() => WatchlistTable(
-      id: id,
-      title: title,
-      posterPath: posterPath,
-      overview: overview,
-      type: "movie");
-
   @override
   List<Object?> get props => [
         adult,
@@ -52,4 +45,6 @@ class MovieDetail extends Equatable {
         voteAverage,
         voteCount,
       ];
+
+  WatchlistTable toWatchlist() => WatchlistTable(id: id, title: title, posterPath: posterPath, overview: overview, type: "movie");
 }
