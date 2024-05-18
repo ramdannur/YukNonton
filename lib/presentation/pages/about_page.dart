@@ -1,6 +1,6 @@
+import 'package:core/common/constants.dart';
 import 'package:core/common/presentation/widgets/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:core/common/constants.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -31,8 +31,8 @@ class AboutPage extends StatelessWidget {
               ),
             ),
             const Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: const Text(
+              padding: EdgeInsets.all(32.0),
+              child: Text(
                 'YukNonton! adalah aplikasi yang dirancang untuk penggemar film dan TV series, menyediakan katalog lengkap yang mencakup berbagai genre dan negara asal. Aplikasi ini memungkinkan pengguna untuk menemukan informasi terperinci tentang film dan TV series favorit mereka, termasuk sinopsis, rating, ulasan, dan lainnya.',
                 style: TextStyle(color: Colors.white, fontSize: 16),
                 textAlign: TextAlign.justify,

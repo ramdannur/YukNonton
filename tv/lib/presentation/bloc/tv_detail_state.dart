@@ -8,6 +8,7 @@ abstract class TvDetailState extends Equatable {
 }
 
 class TvDetailEmpty extends TvDetailState {}
+
 class TvDetailLoading extends TvDetailState {}
 
 class TvDetailError extends TvDetailState {

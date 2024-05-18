@@ -15,138 +15,70 @@ class HomeTvPage extends StatefulWidget {
   const HomeTvPage({super.key});
 
   @override
-  _HomeTvPageState createState() => _HomeTvPageState();
+  State<HomeTvPage> createState() => _HomeTvPageState();
 }
 
-class _HomeTvPageState extends State<HomeTvPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      context.read<TvOnAiringBloc>().add(const OnFetchOnAiringTv());
-      context.read<TvPopularBloc>().add(const OnFetchPopularTvs());
-      context.read<TvTopRatedBloc>().add(const OnFetchTopRatedTvs());
-    });
-  }
+class TvList extends StatelessWidget {
+  final List<Tv> tvs;
+
+  const TvList(this.tvs, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: Image.asset(
-            'assets/circle-g.png',
-          ),
-        ),
-        title: const CustomNavigationBar(1),
+    return SizedBox(
+      height: 200,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          final movie = tvs[index];
+          return Padding(
+            padding: const EdgeInsets.all(8),
+            child: InkWell(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    RouteName.tvDetailPage,
+                    arguments: movie.id,
+                  );
+                },
+                child: AspectRatio(
+                  aspectRatio: 0.5,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        child: CachedNetworkImage(
+                          imageUrl: '$baseImageUrl${movie.posterPath}',
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        movie.name.toString(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                      Text(
+                        movie.firstAirDate != null ? DateTime.parse(movie.firstAirDate!).year.toString() : "-",
+                        style: const TextStyle(fontSize: 11, color: Colors.grey),
+                      )
+                    ],
+                  ),
+                )),
+          );
+        },
+        itemCount: tvs.length,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildSubHeading(
-                title: 'On Airing',
-                onTap: () =>
-                    Navigator.pushNamed(context, RouteName.TvOnAiringPage),
-              ),
-              BlocBuilder<TvOnAiringBloc, TvOnAiringState>(
-                  builder: (context, state) {
-                if (state is OnAiringTvLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state is OnAiringTvHasData) {
-                  return TvListSlider(state.result);
-                } else {
-                  return const Text('Failed');
-                }
-              }),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, RouteName.WatchlistTvPage);
-                        },
-                        icon: Icon(Icons.queue),
-                        label: Text("Watchlist")),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.pushNamed(context, RouteName.TvSearchPage);
-                        },
-                        icon: Icon(Icons.search),
-                        label: Text("Search"))
-                  ],
-                ),
-              ),
-              _buildSubHeading(
-                title: 'Popular',
-                onTap: () =>
-                    Navigator.pushNamed(context, RouteName.TvPopularPage),
-              ),
-              BlocBuilder<TvPopularBloc, TvPopularState>(
-                  builder: (context, state) {
-                if (state is PopularTvsLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state is PopularTvsHasData) {
-                  return TvList(state.result);
-                } else {
-                  return const Text('Failed');
-                }
-              }),
-              _buildSubHeading(
-                title: 'Top Rated',
-                onTap: () =>
-                    Navigator.pushNamed(context, RouteName.TvTopRatedPage),
-              ),
-              BlocBuilder<TvTopRatedBloc, TvTopRatedState>(
-                  builder: (context, state) {
-                if (state is TopRatedTvsLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state is TopRatedTvsHasData) {
-                  return TvList(state.result);
-                } else {
-                  return const Text('Failed');
-                }
-              }),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Row _buildSubHeading({required String title, required Function() onTap}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: kHeading6,
-        ),
-        InkWell(
-          onTap: onTap,
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Row(
-              children: [Text('See More'), Icon(Icons.arrow_forward_ios)],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
@@ -169,7 +101,7 @@ class TvListSlider extends StatelessWidget {
                 Flexible(
                   flex: 4,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(16.0),
                         bottomLeft: Radius.circular(16.0),
@@ -191,7 +123,7 @@ class TvListSlider extends StatelessWidget {
                             fontSize: 16,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 6.0,
                         ),
                         RatingBarIndicator(
@@ -203,18 +135,18 @@ class TvListSlider extends StatelessWidget {
                           ),
                           itemSize: 12,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20.0,
                         ),
                         ElevatedButton(
                             onPressed: () {
                               Navigator.pushNamed(
                                 context,
-                                RouteName.TvDetailPage,
+                                RouteName.tvDetailPage,
                                 arguments: movie.id,
                               );
                             },
-                            child: Text(
+                            child: const Text(
                               "See Details",
                               style: TextStyle(fontSize: 12),
                             ))
@@ -225,19 +157,18 @@ class TvListSlider extends StatelessWidget {
                 Flexible(
                   flex: 3,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(16.0),
                       bottomRight: Radius.circular(16.0),
                     ),
                     child: CachedNetworkImage(
                       fit: BoxFit.fill,
                       height: double.maxFinite,
-                      imageUrl: '$BASE_IMAGE_URL${movie.posterPath}',
+                      imageUrl: '$baseImageUrl${movie.posterPath}',
                       placeholder: (context, url) => const Center(
                         child: CircularProgressIndicator(),
                       ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
                   ),
                 ),
@@ -260,8 +191,8 @@ class TvListSlider extends StatelessWidget {
               enableInfiniteScroll: true,
               reverse: false,
               autoPlay: true,
-              autoPlayInterval: Duration(seconds: 5),
-              autoPlayAnimationDuration: Duration(milliseconds: 800),
+              autoPlayInterval: const Duration(seconds: 5),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
               autoPlayCurve: Curves.fastOutSlowIn,
               enlargeCenterPage: true,
               enlargeFactor: 0.15,
@@ -273,74 +204,128 @@ class TvListSlider extends StatelessWidget {
   }
 }
 
-class TvList extends StatelessWidget {
-  final List<Tv> tvs;
-
-  const TvList(this.tvs, {super.key});
-
+class _HomeTvPageState extends State<HomeTvPage> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          final movie = tvs[index];
-          return Padding(
-            padding: const EdgeInsets.all(8),
-            child: InkWell(
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    RouteName.TvDetailPage,
-                    arguments: movie.id,
-                  );
-                },
-                child: AspectRatio(
-                  aspectRatio: 0.5,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16)),
-                        child: CachedNetworkImage(
-                          imageUrl: '$BASE_IMAGE_URL${movie.posterPath}',
-                          placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        movie.name.toString(),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                      ),
-                      Text(
-                        movie.firstAirDate != null
-                            ? DateTime.parse(movie.firstAirDate!)
-                                .year
-                                .toString()
-                            : "-",
-                        style:
-                            const TextStyle(fontSize: 11, color: Colors.grey),
-                      )
-                    ],
-                  ),
-                )),
-          );
-        },
-        itemCount: tvs.length,
+    return Scaffold(
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 16.0),
+          child: Image.asset(
+            'assets/circle-g.png',
+          ),
+        ),
+        title: const CustomNavigationBar(1),
       ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildSubHeading(
+                title: 'On Airing',
+                onTap: () => Navigator.pushNamed(context, RouteName.tvOnAiringPage),
+              ),
+              BlocBuilder<TvOnAiringBloc, TvOnAiringState>(builder: (context, state) {
+                if (state is OnAiringTvLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is OnAiringTvHasData) {
+                  return TvListSlider(state.result);
+                } else {
+                  return const Text('Failed');
+                }
+              }),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.pushNamed(context, RouteName.watchlistTvPage);
+                        },
+                        icon: const Icon(Icons.queue),
+                        label: const Text("Watchlist")),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.pushNamed(context, RouteName.tvSearchPage);
+                        },
+                        icon: const Icon(Icons.search),
+                        label: const Text("Search"))
+                  ],
+                ),
+              ),
+              _buildSubHeading(
+                title: 'Popular',
+                onTap: () => Navigator.pushNamed(context, RouteName.tvPopularPage),
+              ),
+              BlocBuilder<TvPopularBloc, TvPopularState>(builder: (context, state) {
+                if (state is PopularTvsLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is PopularTvsHasData) {
+                  return TvList(state.result);
+                } else {
+                  return const Text('Failed');
+                }
+              }),
+              _buildSubHeading(
+                title: 'Top Rated',
+                onTap: () => Navigator.pushNamed(context, RouteName.tvTopRatedPage),
+              ),
+              BlocBuilder<TvTopRatedBloc, TvTopRatedState>(builder: (context, state) {
+                if (state is TopRatedTvsLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is TopRatedTvsHasData) {
+                  return TvList(state.result);
+                } else {
+                  return const Text('Failed');
+                }
+              }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<TvOnAiringBloc>().add(const OnFetchOnAiringTv());
+      context.read<TvPopularBloc>().add(const OnFetchPopularTvs());
+      context.read<TvTopRatedBloc>().add(const OnFetchTopRatedTvs());
+    });
+  }
+
+  Row _buildSubHeading({required String title, required Function() onTap}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: kHeading6,
+        ),
+        InkWell(
+          onTap: onTap,
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Row(
+              children: [Text('See More'), Icon(Icons.arrow_forward_ios)],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

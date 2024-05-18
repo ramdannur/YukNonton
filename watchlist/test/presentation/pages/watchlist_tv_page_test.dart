@@ -10,7 +10,9 @@ import '../../dummy_data/dummy_objects.dart';
 
 class MockWatchlistTvBloc extends MockBloc<WatchlistTvEvent, WatchlistTvState>
     implements WatchlistTvBloc {}
+
 class WatchlistTvStateFake extends Fake implements WatchlistTvState {}
+
 class WatchlistTvEventFake extends Fake implements WatchlistTvEvent {}
 
 void main() {
@@ -32,37 +34,38 @@ void main() {
   }
 
   testWidgets('Page should display center progress bar when loading',
-          (WidgetTester tester) async {
-        when(() => mockNotifier.state).thenReturn(WatchlistTvLoading());
+      (WidgetTester tester) async {
+    when(() => mockNotifier.state).thenReturn(WatchlistTvLoading());
 
-        final progressBarFinder = find.byType(CircularProgressIndicator);
-        final centerFinder = find.byType(Center);
+    final progressBarFinder = find.byType(CircularProgressIndicator);
+    final centerFinder = find.byType(Center);
 
-        await tester.pumpWidget(makeTestableWidget(const WatchlistTvPage()));
+    await tester.pumpWidget(makeTestableWidget(const WatchlistTvPage()));
 
-        expect(centerFinder, findsOneWidget);
-        expect(progressBarFinder, findsOneWidget);
-      });
+    expect(centerFinder, findsOneWidget);
+    expect(progressBarFinder, findsOneWidget);
+  });
 
   testWidgets('Page should display ListView when data is loaded',
-          (WidgetTester tester) async {
-        when(() => mockNotifier.state).thenReturn(WatchlistTvHasData(tvs));
+      (WidgetTester tester) async {
+    when(() => mockNotifier.state).thenReturn(WatchlistTvHasData(tvs));
 
-        final listViewFinder = find.byType(ListView);
+    final listViewFinder = find.byType(ListView);
 
-        await tester.pumpWidget(makeTestableWidget(const WatchlistTvPage()));
+    await tester.pumpWidget(makeTestableWidget(const WatchlistTvPage()));
 
-        expect(listViewFinder, findsOneWidget);
-      });
+    expect(listViewFinder, findsOneWidget);
+  });
 
   testWidgets('Page should display text with message when Error',
-          (WidgetTester tester) async {
-        when(() => mockNotifier.state).thenReturn(const WatchlistTvError("server error"));
+      (WidgetTester tester) async {
+    when(() => mockNotifier.state)
+        .thenReturn(const WatchlistTvError("server error"));
 
-        final textFinder = find.byKey(const Key('error_message'));
+    final textFinder = find.byKey(const Key('error_message'));
 
-        await tester.pumpWidget(makeTestableWidget(const WatchlistTvPage()));
+    await tester.pumpWidget(makeTestableWidget(const WatchlistTvPage()));
 
-        expect(textFinder, findsOneWidget);
-      });
+    expect(textFinder, findsOneWidget);
+  });
 }

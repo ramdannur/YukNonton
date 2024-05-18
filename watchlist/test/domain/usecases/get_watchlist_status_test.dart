@@ -14,8 +14,7 @@ void main() {
   test('should get watchlist status from repository', () async {
     // arrange
     final usecase = GetWatchlistStatus(mockWatchlistRepository);
-    when(mockWatchlistRepository.isAddedToWatchlist(1))
-        .thenAnswer((_) async => true);
+    when(mockWatchlistRepository.isAddedToWatchlist(1)).thenAnswer((_) async => true);
     // act
     final result = await usecase.execute(1);
     // assert
@@ -25,8 +24,7 @@ void main() {
   test('should get tv watchlist status from repository', () async {
     // arrange
     final usecase = GetWatchlistStatus(mockWatchlistRepository);
-    when(mockWatchlistRepository.isAddedToWatchlist(1))
-        .thenAnswer((_) async => true);
+    when(mockWatchlistRepository.isAddedToWatchlist(1)).thenAnswer((_) async => true);
     // act
     final result = await usecase.execute(1);
     // assert

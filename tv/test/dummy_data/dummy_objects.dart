@@ -4,17 +4,7 @@ import 'package:tv/domain/entities/tv.dart';
 import 'package:tv/domain/entities/tv_detail.dart';
 import 'package:watchlist/data/models/watchlist_table.dart';
 
-final testWatchlistTv = Tv.watchlist(
-  id: 1,
-  name: 'title',
-  posterPath: 'posterPath',
-  overview: 'overview',
-);
-
-const testTvTable = WatchlistTable(
-    id: 1, title: 'Tv', posterPath: 'poster.png', overview: 'Overview');
-
-final testTv = Tv(
+const testTv = Tv(
     backdropPath: "backdrop.png",
     firstAirDate: "2023-09-09",
     id: 1,
@@ -26,15 +16,13 @@ final testTv = Tv(
     posterPath: "poster.png",
     voteAverage: 4.6,
     voteCount: 900,
-    genreIds: const [1, 2, 3],
-    originalCountry: const ["indonesia"]);
+    genreIds: [1, 2, 3],
+    originalCountry: ["indonesia"]);
 
-final testTvList = [testTv];
-
-final testTvDetail = TvDetail(
+const testTvDetail = TvDetail(
     adult: false,
     backdropPath: "backdrop.png",
-    episodeRunTime: const [60, 120],
+    episodeRunTime: [60, 120],
     firstAirDate: "2023-09-09",
     genres: [
       Genre(id: 1, name: "genre"),
@@ -43,12 +31,12 @@ final testTvDetail = TvDetail(
     homepage: "/home-page",
     id: 1,
     inProduction: false,
-    languages: const ["Indonesia"],
+    languages: ["Indonesia"],
     lastAirDate: "2023-09-09",
     name: "Tv",
     numberOfEpisodes: 20,
     numberOfSeasons: 5,
-    originCountry: const ["Indonesia"],
+    originCountry: ["Indonesia"],
     originalLanguage: "Indonesia",
     originalName: "Tv",
     overview: "Overview",
@@ -63,18 +51,35 @@ final testTvDetail = TvDetail(
       SeasonEntity(id: 1, name: "Season 1", episodeCount: 1),
     ]);
 
-final tv = Tv(
-    backdropPath: "backdrop.png",
-    firstAirDate: "2023-09-09",
-    genreIds: const [1, 2, 3],
-    id: 1,
-    name: "Sinetron Azab",
-    originalCountry: const ["Indonesia"],
-    originalLanguage: "Indonesia",
-    originalName: "Sinetron Indosiar",
-    overview: "Sinetron indosiar terbaik",
-    popularity: 4.5,
-    posterPath: "poster.png",
-    voteAverage: 4.8,
-    voteCount: 900);
+const testTvTable = WatchlistTable(
+  id: 1,
+  title: 'Tv',
+  posterPath: 'poster.png',
+  overview: 'Overview',
+);
+
+const testWatchlistTv = Tv.watchlist(
+  id: 1,
+  name: 'title',
+  posterPath: 'posterPath',
+  overview: 'overview',
+);
+
+const tv = Tv(
+  backdropPath: "backdrop.png",
+  firstAirDate: "2023-09-09",
+  genreIds: [1, 2, 3],
+  id: 1,
+  name: "Sinetron Azab",
+  originalCountry: ["Indonesia"],
+  originalLanguage: "Indonesia",
+  originalName: "Sinetron Indosiar",
+  overview: "Sinetron indosiar terbaik",
+  popularity: 4.5,
+  posterPath: "poster.png",
+  voteAverage: 4.8,
+  voteCount: 900,
+);
+
+final testTvList = [testTv];
 final tvs = <Tv>[tv];

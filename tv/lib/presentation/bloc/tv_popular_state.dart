@@ -8,6 +8,7 @@ abstract class TvPopularState extends Equatable {
 }
 
 class PopularTvsEmpty extends TvPopularState {}
+
 class PopularTvsLoading extends TvPopularState {}
 
 class PopularTvsError extends TvPopularState {

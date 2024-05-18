@@ -9,14 +9,12 @@ import 'package:tv/domain/repositories/tv_repository.dart';
 
 class TvRepositoryImpl implements TvRepository {
   final TvRemoteDataSource remoteDataSource;
-  
-  TvRepositoryImpl({
-    required this.remoteDataSource
-  });
+
+  TvRepositoryImpl({required this.remoteDataSource});
 
   @override
   Future<Either<Failure, TvDetail>> getDetailTv(int tvId) async {
-    try{
+    try {
       final result = await remoteDataSource.getMovieDetail(tvId);
       return Right(result.toEntity());
     } on ServerException {
@@ -28,7 +26,7 @@ class TvRepositoryImpl implements TvRepository {
 
   @override
   Future<Either<Failure, List<Tv>>> getNowPlayingTvs() async {
-    try{
+    try {
       final result = await remoteDataSource.getNowPlayingMovies();
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
@@ -40,7 +38,7 @@ class TvRepositoryImpl implements TvRepository {
 
   @override
   Future<Either<Failure, List<Tv>>> getPopularTvs() async {
-    try{
+    try {
       final result = await remoteDataSource.getPopularMovies();
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
@@ -52,7 +50,7 @@ class TvRepositoryImpl implements TvRepository {
 
   @override
   Future<Either<Failure, List<Tv>>> getRecommendationTvs(int tvId) async {
-    try{
+    try {
       final result = await remoteDataSource.getMovieRecommendations(tvId);
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
@@ -64,7 +62,7 @@ class TvRepositoryImpl implements TvRepository {
 
   @override
   Future<Either<Failure, List<Tv>>> getTopRatedTvs() async {
-    try{
+    try {
       final result = await remoteDataSource.getTopRatedMovies();
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
@@ -85,5 +83,4 @@ class TvRepositoryImpl implements TvRepository {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
-  
 }

@@ -6,7 +6,7 @@ import 'package:tv/domain/usecases/get_tv_detail.dart';
 import '../../dummy_data/dummy_objects.dart';
 import '../../helpers/test_helper.mocks.dart';
 
-void main(){
+void main() {
   late GetTvDetail usecase;
   late MockTvRepository mockTvRepository;
 
@@ -19,11 +19,10 @@ void main(){
 
   test('should get tv detail from the repository', () async {
     // arrange
-    when(mockTvRepository.getDetailTv(tvId))
-        .thenAnswer((_) async => Right(testTvDetail));
+    when(mockTvRepository.getDetailTv(tvId)).thenAnswer((_) async => const Right(testTvDetail));
     // act
     final result = await usecase.execute(tvId);
     // assert
-    expect(result, Right(testTvDetail));
+    expect(result, const Right(testTvDetail));
   });
 }

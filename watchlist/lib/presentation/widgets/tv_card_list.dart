@@ -7,7 +7,7 @@ import 'package:watchlist/domain/entities/tv.dart';
 class TvCard extends StatelessWidget {
   final Tv tv;
 
-  TvCard(this.tv);
+  const TvCard(this.tv, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class TvCard extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            RouteName.TvDetailPage,
+            RouteName.tvDetailPage,
             arguments: tv.id,
           );
         },
@@ -58,7 +58,7 @@ class TvCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                 child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${tv.posterPath}',
+                  imageUrl: '$baseImageUrl${tv.posterPath}',
                   width: 80,
                   placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(),

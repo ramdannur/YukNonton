@@ -6,11 +6,11 @@ class EmptyPage extends StatelessWidget {
   final double? height;
 
   const EmptyPage({
-    Key? key,
+    super.key,
     this.label,
     this.icon = Icons.archive,
     this.height,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

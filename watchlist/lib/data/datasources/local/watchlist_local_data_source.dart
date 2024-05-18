@@ -45,7 +45,8 @@ class WatchlistLocalDataSourceImpl implements WatchlistLocalDataSource {
   }
 
   @override
-  Future<List<WatchlistTable>> getWatchlistMovies([String type = "movie"]) async {
+  Future<List<WatchlistTable>> getWatchlistMovies(
+      [String type = "movie"]) async {
     final result = await databaseHelper.getWatchlistByType(type);
     return result.map((data) => WatchlistTable.fromMap(data)).toList();
   }

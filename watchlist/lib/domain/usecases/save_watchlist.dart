@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:watchlist/data/models/watchlist_table.dart';
 import 'package:watchlist/domain/repositories/watchlist_repository.dart';
 
-class SaveWatchlist{
+class SaveWatchlist {
   final WatchlistRepository repository;
 
   SaveWatchlist(this.repository);

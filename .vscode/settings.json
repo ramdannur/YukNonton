@@ -1,0 +1,39 @@
+{
+    "notebook.formatOnSave.enabled": true,
+    "dart.lineLength": 200,
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": false,
+    // "dartimportsorter.sortOnSave": true,
+    // "dartimportsorter.leaveEmptyLinesBetweenGroups": true,
+    "debug.openDebug": "openOnDebugBreak",
+    "dart.previewFlutterUiGuides": true,
+    "[dart]": {
+        "editor.defaultFormatter": "Dart-Code.dart-code",
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        "editor.suggestSelection": "first",
+        "editor.tabCompletion": "onlySnippets",
+        "editor.wordBasedSuggestions": "matchingDocuments",
+        "editor.rulers": [
+            200
+        ],
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "never",
+            "source.sortMembers": "explicit"
+        },
+        "editor.guides.bracketPairs": true
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features",
+        "editor.formatOnSave": true
+    },
+    "files.watcherExclude": {
+        "/build/": true,
+        "/android/": true,
+        "/ios/": true,
+        "/*.g.dart": true,
+        "/*.freezed.dart": true
+    }
+}

@@ -11,10 +11,7 @@ import 'package:movie/presentation/bloc/movie_detail_bloc.dart';
 import '../../dummy_data/dummy_objects.dart';
 import 'movie_detail_bloc_test.mocks.dart';
 
-@GenerateMocks([
-  GetMovieDetail,
-  GetMovieRecommendations
-])
+@GenerateMocks([GetMovieDetail, GetMovieRecommendations])
 void main() {
   late MovieDetailBloc movieDetailBloc;
   late MockGetMovieDetail mockGetMovieDetail;
@@ -23,9 +20,7 @@ void main() {
   setUp(() {
     mockGetMovieDetail = MockGetMovieDetail();
     mockGetMovieRecommendations = MockGetMovieRecommendations();
-    movieDetailBloc = MovieDetailBloc(
-        mockGetMovieDetail,
-        mockGetMovieRecommendations);
+    movieDetailBloc = MovieDetailBloc(mockGetMovieDetail, mockGetMovieRecommendations);
   });
 
   const tId = 1;
@@ -35,60 +30,44 @@ void main() {
       expect(movieDetailBloc.state, MovieDetailEmpty());
     });
 
-    blocTest<MovieDetailBloc, MovieDetailState>(
-        'Should emit [Loading, HasData] when data is gotten successfully',
+    blocTest<MovieDetailBloc, MovieDetailState>('Should emit [Loading, HasData] when data is gotten successfully',
         build: () {
-          when(mockGetMovieDetail.execute(tId))
-              .thenAnswer((_) async => Right(testMovieDetail));
-          when(mockGetMovieRecommendations.execute(tId))
-              .thenAnswer((_) async => Right(tMovieList));
+          when(mockGetMovieDetail.execute(tId)).thenAnswer((_) async => const Right(testMovieDetail));
+          when(mockGetMovieRecommendations.execute(tId)).thenAnswer((_) async => Right(tMovieList));
 
           return movieDetailBloc;
         },
         act: (bloc) => bloc.add(const OnFetchMovieDetail(tId)),
         wait: const Duration(microseconds: 100),
-        expect: () => [
-              MovieDetailLoading(),
-              MovieDetailHasData(testMovieDetail, tMovieList)
-            ],
+        expect: () => [MovieDetailLoading(), MovieDetailHasData(testMovieDetail, tMovieList)],
         verify: (bloc) {
           verify(mockGetMovieDetail.execute(tId));
         });
 
-    blocTest<MovieDetailBloc, MovieDetailState>(
-        'Should emit [Loading, Error] when failed',
+    blocTest<MovieDetailBloc, MovieDetailState>('Should emit [Loading, Error] when failed',
         build: () {
-          when(mockGetMovieDetail.execute(tId))
-              .thenAnswer((_) async => Left(ServerFailure("server error")));
-          when(mockGetMovieRecommendations.execute(tId))
-              .thenAnswer((_) async => Right(tMovieList));
+          when(mockGetMovieDetail.execute(tId)).thenAnswer((_) async => const Left(ServerFailure("server error")));
+          when(mockGetMovieRecommendations.execute(tId)).thenAnswer((_) async => Right(tMovieList));
 
           return movieDetailBloc;
         },
         act: (bloc) => bloc.add(const OnFetchMovieDetail(tId)),
         wait: const Duration(microseconds: 100),
-        expect: () =>
-            [MovieDetailLoading(), const MovieDetailError("server error")],
+        expect: () => [MovieDetailLoading(), const MovieDetailError("server error")],
         verify: (bloc) {
           verify(mockGetMovieDetail.execute(tId));
         });
 
-    blocTest<MovieDetailBloc, MovieDetailState>(
-        'Should emit [Loading, Error] when failed',
+    blocTest<MovieDetailBloc, MovieDetailState>('Should emit [Loading, Error] when failed',
         build: () {
-          when(mockGetMovieDetail.execute(tId))
-              .thenAnswer((_) async => Right(testMovieDetail));
-          when(mockGetMovieRecommendations.execute(tId))
-              .thenAnswer((_) async => Left(ServerFailure("server error")));
+          when(mockGetMovieDetail.execute(tId)).thenAnswer((_) async => const Right(testMovieDetail));
+          when(mockGetMovieRecommendations.execute(tId)).thenAnswer((_) async => const Left(ServerFailure("server error")));
 
           return movieDetailBloc;
         },
         act: (bloc) => bloc.add(const OnFetchMovieDetail(tId)),
         wait: const Duration(microseconds: 100),
-        expect: () => [
-              MovieDetailLoading(),
-              const MovieDetailError("server error")
-            ],
+        expect: () => [MovieDetailLoading(), const MovieDetailError("server error")],
         verify: (bloc) {
           verify(mockGetMovieDetail.execute(tId));
         });

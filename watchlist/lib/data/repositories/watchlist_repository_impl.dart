@@ -8,12 +8,11 @@ import 'package:watchlist/domain/repositories/watchlist_repository.dart';
 class WatchlistRepositoryImpl implements WatchlistRepository {
   final WatchlistLocalDataSource localDataSource;
 
-  WatchlistRepositoryImpl({
-    required this.localDataSource
-  });
+  WatchlistRepositoryImpl({required this.localDataSource});
 
   @override
-  Future<Either<Failure, List<WatchlistTable>>> getWatchlistByType(String type) async {
+  Future<Either<Failure, List<WatchlistTable>>> getWatchlistByType(
+      String type) async {
     final result = await localDataSource.getWatchlistMovies(type);
     return Right(result);
   }
@@ -25,10 +24,10 @@ class WatchlistRepositoryImpl implements WatchlistRepository {
   }
 
   @override
-  Future<Either<Failure, String>> removeFromWatchlist(WatchlistTable watchlistTable) async {
+  Future<Either<Failure, String>> removeFromWatchlist(
+      WatchlistTable watchlistTable) async {
     try {
-      final result =
-          await localDataSource.removeWatchlist(watchlistTable);
+      final result = await localDataSource.removeWatchlist(watchlistTable);
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -36,14 +35,15 @@ class WatchlistRepositoryImpl implements WatchlistRepository {
   }
 
   @override
-  Future<Either<Failure, String>> saveToWatchlist(WatchlistTable watchlistTable) async {
+  Future<Either<Failure, String>> saveToWatchlist(
+      WatchlistTable watchlistTable) async {
     try {
-      final result =
-          await localDataSource.insertWatchlist(watchlistTable);
+      final result = await localDataSource.insertWatchlist(watchlistTable);
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       rethrow;
     }
-  }}
+  }
+}

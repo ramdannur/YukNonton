@@ -16,8 +16,7 @@ void main() {
   test('should get list of movies from the repository', () async {
     // arrange
     final usecase = GetWatchlist(mockWatchlistRepository);
-    when(mockWatchlistRepository.getWatchlistByType('movie'))
-        .thenAnswer((_) async => Right(testWatchlists));
+    when(mockWatchlistRepository.getWatchlistByType('movie')).thenAnswer((_) async => Right(testWatchlists));
     // act
     final result = await usecase.execute('movie');
     // assert
@@ -27,8 +26,7 @@ void main() {
   test('should get list of tv from the repository', () async {
     // arrange
     final usecase = GetWatchlist(mockWatchlistRepository);
-    when(mockWatchlistRepository.getWatchlistByType('tv'))
-        .thenAnswer((_) async => Right(testWatchlists));
+    when(mockWatchlistRepository.getWatchlistByType('tv')).thenAnswer((_) async => Right(testWatchlists));
     // act
     final result = await usecase.execute('tv');
     // assert

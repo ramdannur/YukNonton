@@ -8,6 +8,7 @@ abstract class TvTopRatedState extends Equatable {
 }
 
 class TopRatedTvsEmpty extends TvTopRatedState {}
+
 class TopRatedTvsLoading extends TvTopRatedState {}
 
 class TopRatedTvsError extends TvTopRatedState {

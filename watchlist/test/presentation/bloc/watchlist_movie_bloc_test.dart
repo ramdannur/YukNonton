@@ -10,7 +10,7 @@ import '../../dummy_data/dummy_objects.dart';
 import 'watchlist_movie_bloc_test.mocks.dart';
 
 @GenerateMocks([GetWatchlist])
-void main(){
+void main() {
   late WatchlistMovieBloc bloc;
   late MockGetWatchlist mockGetWatchlistMovies;
 
@@ -24,34 +24,28 @@ void main(){
       expect(bloc.state, WatchlistMovieEmpty());
     });
 
-    blocTest<WatchlistMovieBloc, WatchlistMovieState>(
-        'Should emit [Loading, HasData] when data is gotten successfully',
+    blocTest<WatchlistMovieBloc, WatchlistMovieState>('Should emit [Loading, HasData] when data is gotten successfully',
         build: () {
-          when(mockGetWatchlistMovies.execute('movie'))
-              .thenAnswer((_) async => Right(testWatchlists));
+          when(mockGetWatchlistMovies.execute('movie')).thenAnswer((_) async => Right(testWatchlists));
 
           return bloc;
         },
         act: (bloc) => bloc.add(const OnFetchWatchlistMovie()),
         wait: const Duration(microseconds: 100),
-        expect: () =>
-        [WatchlistMovieLoading(), WatchlistMovieHasData(testWatchlists.map((e) => e.toMovieEntity()).toList())],
+        expect: () => [WatchlistMovieLoading(), WatchlistMovieHasData(testWatchlists.map((e) => e.toMovieEntity()).toList())],
         verify: (bloc) {
           verify(mockGetWatchlistMovies.execute('movie'));
         });
 
-    blocTest<WatchlistMovieBloc, WatchlistMovieState>(
-        'Should emit [Loading, Error] when failed',
+    blocTest<WatchlistMovieBloc, WatchlistMovieState>('Should emit [Loading, Error] when failed',
         build: () {
-          when(mockGetWatchlistMovies.execute('movie'))
-              .thenAnswer((_) async => Left(ServerFailure("server error")));
+          when(mockGetWatchlistMovies.execute('movie')).thenAnswer((_) async => const Left(ServerFailure("server error")));
 
           return bloc;
         },
         act: (bloc) => bloc.add(const OnFetchWatchlistMovie()),
         wait: const Duration(microseconds: 100),
-        expect: () =>
-        [WatchlistMovieLoading(), const WatchlistMovieError("server error")],
+        expect: () => [WatchlistMovieLoading(), const WatchlistMovieError("server error")],
         verify: (bloc) {
           verify(mockGetWatchlistMovies.execute('movie'));
         });

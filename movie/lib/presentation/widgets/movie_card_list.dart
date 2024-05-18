@@ -17,7 +17,7 @@ class MovieCard extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            RouteName.MovieDetailPage,
+            RouteName.movieDetailPage,
             arguments: movie.id,
           );
         },
@@ -41,9 +41,7 @@ class MovieCard extends StatelessWidget {
                       style: kHeading6,
                     ),
                     Text(
-                      movie.releaseDate != null
-                          ? DateTime.parse(movie.releaseDate!).year.toString()
-                          : "-",
+                      movie.releaseDate != null ? DateTime.parse(movie.releaseDate!).year.toString() : "-",
                       style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                     const SizedBox(height: 12),
@@ -64,7 +62,7 @@ class MovieCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                 child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${movie.posterPath}',
+                  imageUrl: '$baseImageUrl${movie.posterPath}',
                   width: 80,
                   placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(),

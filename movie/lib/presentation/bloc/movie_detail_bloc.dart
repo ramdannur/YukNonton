@@ -9,11 +9,12 @@ import '../../domain/entities/movie_detail.dart';
 part 'movie_detail_event.dart';
 part 'movie_detail_state.dart';
 
-class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState>{
+class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   final GetMovieDetail _getMovieDetail;
   final GetMovieRecommendations _getMovieRecommendations;
 
-  MovieDetailBloc(this._getMovieDetail, this._getMovieRecommendations) : super(MovieDetailEmpty()) {
+  MovieDetailBloc(this._getMovieDetail, this._getMovieRecommendations)
+      : super(MovieDetailEmpty()) {
     on<OnFetchMovieDetail>((event, emit) async {
       final movieId = event.movieId;
 
@@ -21,21 +22,15 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState>{
       final result = await _getMovieDetail.execute(movieId);
       final recommendations = await _getMovieRecommendations.execute(movieId);
 
-      result.fold(
-        (failure) {
+      result.fold((failure) {
+        emit(MovieDetailError(failure.message));
+      }, (movie) {
+        recommendations.fold((failure) {
           emit(MovieDetailError(failure.message));
-        },
-        (movie) {
-          recommendations.fold(
-              (failure) {
-                emit(MovieDetailError(failure.message));
-              },
-              (recommendations) {
-                emit(MovieDetailHasData(movie, recommendations));
-              }
-          );
-        }
-      );
+        }, (recommendations) {
+          emit(MovieDetailHasData(movie, recommendations));
+        });
+      });
     });
   }
 }

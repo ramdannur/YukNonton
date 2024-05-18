@@ -8,6 +8,7 @@ abstract class MovieNowPlayingState extends Equatable {
 }
 
 class NowPlayingMoviesEmpty extends MovieNowPlayingState {}
+
 class NowPlayingMoviesLoading extends MovieNowPlayingState {}
 
 class NowPlayingMoviesError extends MovieNowPlayingState {

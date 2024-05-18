@@ -9,28 +9,10 @@ class WatchlistTvPage extends StatefulWidget {
   const WatchlistTvPage({super.key});
 
   @override
-  _WatchlistTvPageState createState() => _WatchlistTvPageState();
+  State<WatchlistTvPage> createState() => _WatchlistTvPageState();
 }
 
 class _WatchlistTvPageState extends State<WatchlistTvPage> with RouteAware {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(
-        () => context.read<WatchlistTvBloc>().add(const OnFetchWatchlistTv()));
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    routeObserver.subscribe(this, ModalRoute.of(context)!);
-  }
-
-  @override
-  void didPopNext() {
-    context.read<WatchlistTvBloc>().add(const OnFetchWatchlistTv());
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,8 +56,25 @@ class _WatchlistTvPageState extends State<WatchlistTvPage> with RouteAware {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void didPopNext() {
+    context.read<WatchlistTvBloc>().add(const OnFetchWatchlistTv());
+  }
+
+  @override
   void dispose() {
     routeObserver.unsubscribe(this);
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => context.read<WatchlistTvBloc>().add(const OnFetchWatchlistTv()));
   }
 }

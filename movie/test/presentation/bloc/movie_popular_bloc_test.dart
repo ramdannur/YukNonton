@@ -25,34 +25,28 @@ void main() {
       expect(bloc.state, PopularMoviesEmpty());
     });
 
-    blocTest<MoviePopularBloc, MoviePopularState>(
-        'Should emit [Loading, HasData] when data is gotten successfully',
+    blocTest<MoviePopularBloc, MoviePopularState>('Should emit [Loading, HasData] when data is gotten successfully',
         build: () {
-          when(mockGetPopularMovies.execute())
-              .thenAnswer((_) async => Right(tMovieList));
+          when(mockGetPopularMovies.execute()).thenAnswer((_) async => Right(tMovieList));
 
           return bloc;
         },
         act: (bloc) => bloc.add(const OnFetchPopularMovies()),
         wait: const Duration(microseconds: 100),
-        expect: () =>
-            [PopularMoviesLoading(), PopularMoviesHasData(tMovieList)],
+        expect: () => [PopularMoviesLoading(), PopularMoviesHasData(tMovieList)],
         verify: (bloc) {
           verify(mockGetPopularMovies.execute());
         });
 
-    blocTest<MoviePopularBloc, MoviePopularState>(
-        'Should emit [Loading, Error] when failed',
+    blocTest<MoviePopularBloc, MoviePopularState>('Should emit [Loading, Error] when failed',
         build: () {
-          when(mockGetPopularMovies.execute())
-              .thenAnswer((_) async => Left(ServerFailure("server error")));
+          when(mockGetPopularMovies.execute()).thenAnswer((_) async => const Left(ServerFailure("server error")));
 
           return bloc;
         },
         act: (bloc) => bloc.add(const OnFetchPopularMovies()),
         wait: const Duration(microseconds: 100),
-        expect: () =>
-            [PopularMoviesLoading(), const PopularMoviesError("server error")],
+        expect: () => [PopularMoviesLoading(), const PopularMoviesError("server error")],
         verify: (bloc) {
           verify(mockGetPopularMovies.execute());
         });

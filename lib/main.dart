@@ -2,14 +2,11 @@ import 'package:core/common/constants.dart';
 import 'package:core/common/presentation/pages/route_name.dart';
 import 'package:core/common/presentation/widgets/empty_page.dart';
 import 'package:core/common/utils.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:yuknonton/firebase_options.dart';
-import 'package:yuknonton/presentation/pages/about_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yuknonton/injection.dart' as di;
 import 'package:movie/presentation/bloc/movie_detail_bloc.dart';
 import 'package:movie/presentation/bloc/movie_now_playing_bloc.dart';
 import 'package:movie/presentation/bloc/movie_popular_bloc.dart';
@@ -36,6 +33,9 @@ import 'package:watchlist/presentation/bloc/watchlist_toggle_bloc.dart';
 import 'package:watchlist/presentation/bloc/watchlist_tv_bloc.dart';
 import 'package:watchlist/presentation/pages/watchlist_movies_page.dart';
 import 'package:watchlist/presentation/pages/watchlist_tv_page.dart';
+import 'package:yuknonton/firebase_options.dart';
+import 'package:yuknonton/injection.dart' as di;
+import 'package:yuknonton/presentation/pages/about_page.dart';
 
 void main() async {
   di.init();
@@ -109,45 +109,41 @@ class MyApp extends StatelessWidget {
         navigatorObservers: [routeObserver],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
-            case RouteName.MovieHomePage:
+            case RouteName.movieHomePage:
               return MaterialPageRoute(builder: (_) => const HomeMoviePage());
-            case RouteName.TvHomePage:
+            case RouteName.tvHomePage:
               return MaterialPageRoute(builder: (_) => const HomeTvPage());
-            case RouteName.TvOnAiringPage:
+            case RouteName.tvOnAiringPage:
               return MaterialPageRoute(builder: (_) => const OnAiringTvPage());
-            case RouteName.MoviePopularPage:
-              return CupertinoPageRoute(
-                  builder: (_) => const PopularMoviesPage());
-            case RouteName.TvPopularPage:
+            case RouteName.moviePopularPage:
+              return CupertinoPageRoute(builder: (_) => const PopularMoviesPage());
+            case RouteName.tvPopularPage:
               return CupertinoPageRoute(builder: (_) => const PopularTvPage());
-            case RouteName.MovieTopRatedPage:
-              return CupertinoPageRoute(
-                  builder: (_) => const TopRatedMoviesPage());
-            case RouteName.TvTopRatedPage:
+            case RouteName.movieTopRatedPage:
+              return CupertinoPageRoute(builder: (_) => const TopRatedMoviesPage());
+            case RouteName.tvTopRatedPage:
               return CupertinoPageRoute(builder: (_) => const TopRatedTvPage());
-            case RouteName.MovieDetailPage:
+            case RouteName.movieDetailPage:
               final id = settings.arguments as int;
               return MaterialPageRoute(
                 builder: (_) => MovieDetailPage(id: id),
                 settings: settings,
               );
-            case RouteName.TvDetailPage:
+            case RouteName.tvDetailPage:
               final id = settings.arguments as int;
               return MaterialPageRoute(
                 builder: (_) => TvDetailPage(id: id),
                 settings: settings,
               );
-            case RouteName.MovieSearchPage:
-              return CupertinoPageRoute(
-                  builder: (_) => const SearchMoviePage());
-            case RouteName.TvSearchPage:
+            case RouteName.movieSearchPage:
+              return CupertinoPageRoute(builder: (_) => const SearchMoviePage());
+            case RouteName.tvSearchPage:
               return CupertinoPageRoute(builder: (_) => const SearchTvPage());
-            case RouteName.WatchlistMoviePage:
-              return MaterialPageRoute(
-                  builder: (_) => const WatchlistMoviesPage());
-            case RouteName.WatchlistTvPage:
+            case RouteName.watchlistMoviePage:
+              return MaterialPageRoute(builder: (_) => const WatchlistMoviesPage());
+            case RouteName.watchlistTvPage:
               return MaterialPageRoute(builder: (_) => const WatchlistTvPage());
-            case RouteName.AboutPage:
+            case RouteName.aboutPage:
               return MaterialPageRoute(builder: (_) => const AboutPage());
             default:
               return MaterialPageRoute(builder: (_) {

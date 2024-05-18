@@ -1,37 +1,18 @@
 import 'package:core/common/presentation/widgets/empty_page.dart';
+import 'package:core/common/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:watchlist/presentation/bloc/watchlist_movie_bloc.dart';
 import 'package:watchlist/presentation/widgets/movie_card_list.dart';
-import 'package:core/common/utils.dart';
 
 class WatchlistMoviesPage extends StatefulWidget {
   const WatchlistMoviesPage({super.key});
 
   @override
-  _WatchlistMoviesPageState createState() => _WatchlistMoviesPageState();
+  State<WatchlistMoviesPage> createState() => _WatchlistMoviesPageState();
 }
 
-class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
-    with RouteAware {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() =>
-        context.read<WatchlistMovieBloc>().add(const OnFetchWatchlistMovie()));
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    routeObserver.subscribe(this, ModalRoute.of(context)!);
-  }
-
-  @override
-  void didPopNext() {
-    context.read<WatchlistMovieBloc>().add(const OnFetchWatchlistMovie());
-  }
-
+class _WatchlistMoviesPageState extends State<WatchlistMoviesPage> with RouteAware {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,8 +56,25 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void didPopNext() {
+    context.read<WatchlistMovieBloc>().add(const OnFetchWatchlistMovie());
+  }
+
+  @override
   void dispose() {
     routeObserver.unsubscribe(this);
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => context.read<WatchlistMovieBloc>().add(const OnFetchWatchlistMovie()));
   }
 }

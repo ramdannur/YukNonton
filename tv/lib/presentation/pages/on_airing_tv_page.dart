@@ -7,16 +7,10 @@ class OnAiringTvPage extends StatefulWidget {
   const OnAiringTvPage({super.key});
 
   @override
-  _OnAiringTvPageState createState() => _OnAiringTvPageState();
+  State<OnAiringTvPage> createState() => _OnAiringTvPageState();
 }
 
 class _OnAiringTvPageState extends State<OnAiringTvPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() => context.read<TvOnAiringBloc>().add(const OnFetchOnAiringTv()));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,5 +45,11 @@ class _OnAiringTvPageState extends State<OnAiringTvPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => context.read<TvOnAiringBloc>().add(const OnFetchOnAiringTv()));
   }
 }

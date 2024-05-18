@@ -8,6 +8,7 @@ abstract class TvOnAiringState extends Equatable {
 }
 
 class OnAiringTvEmpty extends TvOnAiringState {}
+
 class OnAiringTvLoading extends TvOnAiringState {}
 
 class OnAiringTvError extends TvOnAiringState {

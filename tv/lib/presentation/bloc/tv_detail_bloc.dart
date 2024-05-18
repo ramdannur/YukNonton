@@ -8,11 +8,12 @@ import 'package:tv/domain/usecases/get_tv_detail.dart';
 part 'tv_detail_event.dart';
 part 'tv_detail_state.dart';
 
-class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState>{
+class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState> {
   final GetTvDetail _getTvDetail;
   final GetRecommendationTvs _getMovieRecommendations;
 
-  TvDetailBloc(this._getTvDetail, this._getMovieRecommendations) : super(TvDetailEmpty()) {
+  TvDetailBloc(this._getTvDetail, this._getMovieRecommendations)
+      : super(TvDetailEmpty()) {
     on<OnFetchTvDetail>((event, emit) async {
       final tvId = event.tvId;
 
@@ -20,22 +21,15 @@ class TvDetailBloc extends Bloc<TvDetailEvent, TvDetailState>{
       final result = await _getTvDetail.execute(tvId);
       final recommendations = await _getMovieRecommendations.execute(tvId);
 
-      result.fold(
-        (failure) {
+      result.fold((failure) {
+        emit(TvDetailError(failure.message));
+      }, (movie) {
+        recommendations.fold((failure) {
           emit(TvDetailError(failure.message));
-        },
-        (movie) {
-
-          recommendations.fold(
-              (failure) {
-                emit(TvDetailError(failure.message));
-              },
-              (recommendations) {
-                emit(TvDetailHasData(movie, recommendations));
-              }
-          );
-        }
-      );
+        }, (recommendations) {
+          emit(TvDetailHasData(movie, recommendations));
+        });
+      });
     });
   }
 }

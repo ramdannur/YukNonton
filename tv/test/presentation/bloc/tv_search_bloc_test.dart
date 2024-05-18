@@ -20,41 +20,35 @@ void main() {
     bloc = TvSearchBloc(mockSearchTvs);
   });
 
-  final query = "Best Tv";
+  const query = "Best Tv";
 
   group('Search Tv', () {
     test('initial state should be empty', () {
       expect(bloc.state, SearchTvsEmpty());
     });
 
-    blocTest<TvSearchBloc, TvSearchState>(
-        'Should emit [Loading, HasData] when data is gotten successfully',
+    blocTest<TvSearchBloc, TvSearchState>('Should emit [Loading, HasData] when data is gotten successfully',
         build: () {
-          when(mockSearchTvs.execute(query))
-              .thenAnswer((_) async => Right(tvs));
+          when(mockSearchTvs.execute(query)).thenAnswer((_) async => Right(tvs));
 
           return bloc;
         },
-        act: (bloc) => bloc.add(OnSearchTv(query)),
+        act: (bloc) => bloc.add(const OnSearchTv(query)),
         wait: const Duration(milliseconds: 500),
-        expect: () =>
-            [SearchTvsLoading(), SearchTvsHasData(tvs)],
+        expect: () => [SearchTvsLoading(), SearchTvsHasData(tvs)],
         verify: (bloc) {
           verify(mockSearchTvs.execute(query));
         });
 
-    blocTest<TvSearchBloc, TvSearchState>(
-        'Should emit [Loading, Error] when failed',
+    blocTest<TvSearchBloc, TvSearchState>('Should emit [Loading, Error] when failed',
         build: () {
-          when(mockSearchTvs.execute(query))
-              .thenAnswer((_) async => Left(ServerFailure("server error")));
+          when(mockSearchTvs.execute(query)).thenAnswer((_) async => const Left(ServerFailure("server error")));
 
           return bloc;
         },
-        act: (bloc) => bloc.add(OnSearchTv(query)),
+        act: (bloc) => bloc.add(const OnSearchTv(query)),
         wait: const Duration(milliseconds: 500),
-        expect: () =>
-            [SearchTvsLoading(), const SearchTvsError("server error")],
+        expect: () => [SearchTvsLoading(), const SearchTvsError("server error")],
         verify: (bloc) {
           verify(mockSearchTvs.execute(query));
         });

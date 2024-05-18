@@ -10,9 +10,7 @@ import 'package:movie/domain/repositories/movie_repository.dart';
 
 class MovieRepositoryImpl implements MovieRepository {
   final MovieRemoteDataSource remoteDataSource;
-  MovieRepositoryImpl({
-    required this.remoteDataSource
-  });
+  MovieRepositoryImpl({required this.remoteDataSource});
 
   @override
   Future<Either<Failure, List<Movie>>> getNowPlayingMovies() async {

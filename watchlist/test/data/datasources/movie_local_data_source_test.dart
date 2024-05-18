@@ -12,7 +12,8 @@ void main() {
 
   setUp(() {
     mockDatabaseHelper = MockDatabaseHelper();
-    dataSource = WatchlistLocalDataSourceImpl(databaseHelper: mockDatabaseHelper);
+    dataSource =
+        WatchlistLocalDataSourceImpl(databaseHelper: mockDatabaseHelper);
   });
 
   group('save watchlist', () {

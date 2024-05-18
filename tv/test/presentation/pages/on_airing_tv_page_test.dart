@@ -8,11 +8,6 @@ import 'package:tv/presentation/pages/on_airing_tv_page.dart';
 
 import '../../dummy_data/dummy_objects.dart';
 
-class MockTvOnAiringBloc extends MockBloc<TvOnAiringEvent, TvOnAiringState>
-    implements TvOnAiringBloc {}
-class TvOnAiringStateFake extends Fake implements TvOnAiringState {}
-class TvOnAiringEventFake extends Fake implements TvOnAiringEvent {}
-
 void main() {
   late MockTvOnAiringBloc mockNotifier;
 
@@ -31,38 +26,41 @@ void main() {
     );
   }
 
-  testWidgets('Page should display center progress bar when loading',
-          (WidgetTester tester) async {
-        when(() => mockNotifier.state).thenReturn(OnAiringTvLoading());
+  testWidgets('Page should display center progress bar when loading', (WidgetTester tester) async {
+    when(() => mockNotifier.state).thenReturn(OnAiringTvLoading());
 
-        final progressBarFinder = find.byType(CircularProgressIndicator);
-        final centerFinder = find.byType(Center);
+    final progressBarFinder = find.byType(CircularProgressIndicator);
+    final centerFinder = find.byType(Center);
 
-        await tester.pumpWidget(makeTestableWidget(const OnAiringTvPage()));
+    await tester.pumpWidget(makeTestableWidget(const OnAiringTvPage()));
 
-        expect(centerFinder, findsOneWidget);
-        expect(progressBarFinder, findsOneWidget);
-      });
+    expect(centerFinder, findsOneWidget);
+    expect(progressBarFinder, findsOneWidget);
+  });
 
-  testWidgets('Page should display ListView when data is loaded',
-          (WidgetTester tester) async {
-        when(() => mockNotifier.state).thenReturn(OnAiringTvHasData(testTvList));
+  testWidgets('Page should display ListView when data is loaded', (WidgetTester tester) async {
+    when(() => mockNotifier.state).thenReturn(OnAiringTvHasData(testTvList));
 
-        final listViewFinder = find.byType(ListView);
+    final listViewFinder = find.byType(ListView);
 
-        await tester.pumpWidget(makeTestableWidget(const OnAiringTvPage()));
+    await tester.pumpWidget(makeTestableWidget(const OnAiringTvPage()));
 
-        expect(listViewFinder, findsOneWidget);
-      });
+    expect(listViewFinder, findsOneWidget);
+  });
 
-  testWidgets('Page should display text with message when Error',
-          (WidgetTester tester) async {
-        when(() => mockNotifier.state).thenReturn(const OnAiringTvError("server error"));
+  testWidgets('Page should display text with message when Error', (WidgetTester tester) async {
+    when(() => mockNotifier.state).thenReturn(const OnAiringTvError("server error"));
 
-        final textFinder = find.byKey(const Key('error_message'));
+    final textFinder = find.byKey(const Key('error_message'));
 
-        await tester.pumpWidget(makeTestableWidget(const OnAiringTvPage()));
+    await tester.pumpWidget(makeTestableWidget(const OnAiringTvPage()));
 
-        expect(textFinder, findsOneWidget);
-      });
+    expect(textFinder, findsOneWidget);
+  });
 }
+
+class MockTvOnAiringBloc extends MockBloc<TvOnAiringEvent, TvOnAiringState> implements TvOnAiringBloc {}
+
+class TvOnAiringEventFake extends Fake implements TvOnAiringEvent {}
+
+class TvOnAiringStateFake extends Fake implements TvOnAiringState {}

@@ -4,37 +4,37 @@ import 'package:tv/domain/entities/season.dart';
 import 'package:watchlist/data/models/watchlist_table.dart';
 
 class TvDetail extends Equatable {
-  bool adult;
-  String backdropPath;
+  final bool adult;
+  final String backdropPath;
 
-  List<int> episodeRunTime;
-  String firstAirDate;
-  List<Genre> genres;
-  String homepage;
-  int id;
-  bool inProduction;
-  List<String> languages;
-  String lastAirDate;
-  String name;
-  dynamic nextEpisodeToAir;
+  final List<int> episodeRunTime;
+  final String firstAirDate;
+  final List<Genre> genres;
+  final String homepage;
+  final int id;
+  final bool inProduction;
+  final List<String> languages;
+  final String lastAirDate;
+  final String name;
+  final dynamic nextEpisodeToAir;
 
-  int numberOfEpisodes;
-  int numberOfSeasons;
-  List<String> originCountry;
-  String originalLanguage;
-  String originalName;
-  String overview;
-  double popularity;
-  String posterPath;
+  final int numberOfEpisodes;
+  final int numberOfSeasons;
+  final List<String> originCountry;
+  final String originalLanguage;
+  final String originalName;
+  final String overview;
+  final double popularity;
+  final String posterPath;
 
-  String status;
-  String tagline;
-  String type;
-  double voteAverage;
-  int voteCount;
+  final String status;
+  final String tagline;
+  final String type;
+  final double voteAverage;
+  final int voteCount;
   final List<SeasonEntity> seasons;
 
-  TvDetail({
+  const TvDetail({
     required this.adult,
     required this.backdropPath,
     required this.episodeRunTime,
@@ -60,14 +60,8 @@ class TvDetail extends Equatable {
     required this.voteAverage,
     required this.voteCount,
     required this.seasons,
+    this.nextEpisodeToAir,
   });
-
-  WatchlistTable toWatchlist() => WatchlistTable(
-      id: id,
-      title: name,
-      posterPath: posterPath,
-      overview: overview,
-      type: "tv");
 
   @override
   List<Object?> get props => [
@@ -98,4 +92,6 @@ class TvDetail extends Equatable {
         voteCount,
         seasons,
       ];
+
+  WatchlistTable toWatchlist() => WatchlistTable(id: id, title: name, posterPath: posterPath, overview: overview, type: "tv");
 }

@@ -25,34 +25,28 @@ void main() {
       expect(bloc.state, TopRatedMoviesEmpty());
     });
 
-    blocTest<MovieTopRatedBloc, MovieTopRatedState>(
-        'Should emit [Loading, HasData] when data is gotten successfully',
+    blocTest<MovieTopRatedBloc, MovieTopRatedState>('Should emit [Loading, HasData] when data is gotten successfully',
         build: () {
-          when(mockGetTopRatedMovies.execute())
-              .thenAnswer((_) async => Right(tMovieList));
+          when(mockGetTopRatedMovies.execute()).thenAnswer((_) async => Right(tMovieList));
 
           return bloc;
         },
         act: (bloc) => bloc.add(const OnFetchTopRatedMovies()),
         wait: const Duration(microseconds: 100),
-        expect: () =>
-            [TopRatedMoviesLoading(), TopRatedMoviesHasData(tMovieList)],
+        expect: () => [TopRatedMoviesLoading(), TopRatedMoviesHasData(tMovieList)],
         verify: (bloc) {
           verify(mockGetTopRatedMovies.execute());
         });
 
-    blocTest<MovieTopRatedBloc, MovieTopRatedState>(
-        'Should emit [Loading, Error] when failed',
+    blocTest<MovieTopRatedBloc, MovieTopRatedState>('Should emit [Loading, Error] when failed',
         build: () {
-          when(mockGetTopRatedMovies.execute())
-              .thenAnswer((_) async => Left(ServerFailure("server error")));
+          when(mockGetTopRatedMovies.execute()).thenAnswer((_) async => const Left(ServerFailure("server error")));
 
           return bloc;
         },
         act: (bloc) => bloc.add(const OnFetchTopRatedMovies()),
         wait: const Duration(microseconds: 100),
-        expect: () =>
-            [TopRatedMoviesLoading(), const TopRatedMoviesError("server error")],
+        expect: () => [TopRatedMoviesLoading(), const TopRatedMoviesError("server error")],
         verify: (bloc) {
           verify(mockGetTopRatedMovies.execute());
         });

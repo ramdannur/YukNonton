@@ -9,47 +9,6 @@ import 'package:tv/domain/entities/tv_detail.dart';
 import 'package:tv/presentation/bloc/tv_detail_bloc.dart';
 import 'package:watchlist/presentation/bloc/watchlist_toggle_bloc.dart';
 
-class TvDetailPage extends StatefulWidget {
-  final int id;
-  const TvDetailPage({super.key, required this.id});
-
-  @override
-  _TvDetailPageState createState() => _TvDetailPageState();
-}
-
-class _TvDetailPageState extends State<TvDetailPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      context.read<TvDetailBloc>().add(OnFetchTvDetail(widget.id));
-      context.read<WatchlistToggleBloc>().add(OnGetWatchlistStatus(widget.id));
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<TvDetailBloc, TvDetailState>(
-        builder: (context, state) {
-          if (state is TvDetailLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is TvDetailHasData) {
-            final movie = state.result;
-            return SafeArea(
-              child: DetailContent(movie),
-            );
-          } else {
-            return const Text("Failed");
-          }
-        },
-      ),
-    );
-  }
-}
-
 class DetailContent extends StatelessWidget {
   final TvDetail tv;
 
@@ -95,36 +54,23 @@ class DetailContent extends StatelessWidget {
                               tv.name,
                               style: kHeading5,
                             ),
-                            BlocBuilder<WatchlistToggleBloc,
-                                    WatchlistToggleState>(
-                                builder: (context, state) {
+                            BlocBuilder<WatchlistToggleBloc, WatchlistToggleState>(builder: (context, state) {
                               if (state is WatchlistStatusFetched) {
                                 return ElevatedButton(
                                   onPressed: () async {
                                     if (!state.watchlistStatus) {
-                                      context.read<WatchlistToggleBloc>().add(
-                                          OnAddWatchlist(tv.toWatchlist()));
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                              content:
-                                                  Text("Added to Watchlist")));
+                                      context.read<WatchlistToggleBloc>().add(OnAddWatchlist(tv.toWatchlist()));
+                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Added to Watchlist")));
                                     } else {
-                                      context.read<WatchlistToggleBloc>().add(
-                                          OnRemoveWatchlist(tv.toWatchlist()));
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                              content: Text(
-                                                  "Removed from Watchlist")));
+                                      context.read<WatchlistToggleBloc>().add(OnRemoveWatchlist(tv.toWatchlist()));
+                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Removed from Watchlist")));
                                     }
                                   },
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      state.watchlistStatus
-                                          ? const Icon(Icons.check)
-                                          : const Icon(Icons.add),
-                                      Text(
-                                          ' ${state.watchlistStatus ? 'Saved to' : 'Add to'} Watchlist'),
+                                      state.watchlistStatus ? const Icon(Icons.check) : const Icon(Icons.add),
+                                      Text(' ${state.watchlistStatus ? 'Saved to' : 'Add to'} Watchlist'),
                                     ],
                                   ),
                                 );
@@ -177,20 +123,18 @@ class DetailContent extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   return ListTile(
                                     dense: true,
-                                    contentPadding:
-                                        EdgeInsets.symmetric(vertical: 0),
+                                    contentPadding: const EdgeInsets.symmetric(vertical: 0),
                                     title: Text(
                                       tv.seasons[index].name,
                                     ),
                                     subtitle: Text(
                                       "${tv.seasons[index].episodeCount} Episodes",
-                                      style: kBodyText.copyWith(
-                                          color: Colors.grey),
+                                      style: kBodyText.copyWith(color: Colors.grey),
                                     ),
                                   );
                                 },
                               ),
-                              SizedBox(height: 16),
+                              const SizedBox(height: 16),
                             ],
                             Text(
                               'Recommendations',
@@ -208,8 +152,7 @@ class DetailContent extends StatelessWidget {
                                   final recommendations = state.recommendations;
 
                                   if (recommendations.isEmpty) {
-                                    return const Text(
-                                        "No Recommendation Found");
+                                    return const Text("No Recommendation Found");
                                   }
 
                                   return SizedBox(
@@ -224,26 +167,20 @@ class DetailContent extends StatelessWidget {
                                             onTap: () {
                                               Navigator.pushReplacementNamed(
                                                 context,
-                                                RouteName.TvDetailPage,
+                                                RouteName.tvDetailPage,
                                                 arguments: tv.id,
                                               );
                                             },
                                             child: ClipRRect(
-                                              borderRadius:
-                                                  const BorderRadius.all(
+                                              borderRadius: const BorderRadius.all(
                                                 Radius.circular(8),
                                               ),
                                               child: CachedNetworkImage(
-                                                imageUrl:
-                                                    'https://image.tmdb.org/t/p/w500${tv.posterPath}',
-                                                placeholder: (context, url) =>
-                                                    const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
+                                                imageUrl: 'https://image.tmdb.org/t/p/w500${tv.posterPath}',
+                                                placeholder: (context, url) => const Center(
+                                                  child: CircularProgressIndicator(),
                                                 ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        const Icon(Icons.error),
+                                                errorWidget: (context, url, error) => const Icon(Icons.error),
                                               ),
                                             ),
                                           ),
@@ -306,5 +243,46 @@ class DetailContent extends StatelessWidget {
     }
 
     return result.substring(0, result.length - 2);
+  }
+}
+
+class TvDetailPage extends StatefulWidget {
+  final int id;
+  const TvDetailPage({super.key, required this.id});
+
+  @override
+  State<TvDetailPage> createState() => _TvDetailPageState();
+}
+
+class _TvDetailPageState extends State<TvDetailPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocBuilder<TvDetailBloc, TvDetailState>(
+        builder: (context, state) {
+          if (state is TvDetailLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is TvDetailHasData) {
+            final movie = state.result;
+            return SafeArea(
+              child: DetailContent(movie),
+            );
+          } else {
+            return const Text("Failed");
+          }
+        },
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<TvDetailBloc>().add(OnFetchTvDetail(widget.id));
+      context.read<WatchlistToggleBloc>().add(OnGetWatchlistStatus(widget.id));
+    });
   }
 }

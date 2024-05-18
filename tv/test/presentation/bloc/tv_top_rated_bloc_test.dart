@@ -25,34 +25,28 @@ void main() {
       expect(bloc.state, TopRatedTvsEmpty());
     });
 
-    blocTest<TvTopRatedBloc, TvTopRatedState>(
-        'Should emit [Loading, HasData] when data is gotten successfully',
+    blocTest<TvTopRatedBloc, TvTopRatedState>('Should emit [Loading, HasData] when data is gotten successfully',
         build: () {
-          when(mockGetTopRatedTvs.execute())
-              .thenAnswer((_) async => Right(tvs));
+          when(mockGetTopRatedTvs.execute()).thenAnswer((_) async => Right(tvs));
 
           return bloc;
         },
         act: (bloc) => bloc.add(const OnFetchTopRatedTvs()),
         wait: const Duration(microseconds: 100),
-        expect: () =>
-            [TopRatedTvsLoading(), TopRatedTvsHasData(tvs)],
+        expect: () => [TopRatedTvsLoading(), TopRatedTvsHasData(tvs)],
         verify: (bloc) {
           verify(mockGetTopRatedTvs.execute());
         });
 
-    blocTest<TvTopRatedBloc, TvTopRatedState>(
-        'Should emit [Loading, Error] when failed',
+    blocTest<TvTopRatedBloc, TvTopRatedState>('Should emit [Loading, Error] when failed',
         build: () {
-          when(mockGetTopRatedTvs.execute())
-              .thenAnswer((_) async => Left(ServerFailure("server error")));
+          when(mockGetTopRatedTvs.execute()).thenAnswer((_) async => const Left(ServerFailure("server error")));
 
           return bloc;
         },
         act: (bloc) => bloc.add(const OnFetchTopRatedTvs()),
         wait: const Duration(microseconds: 100),
-        expect: () =>
-            [TopRatedTvsLoading(), const TopRatedTvsError("server error")],
+        expect: () => [TopRatedTvsLoading(), const TopRatedTvsError("server error")],
         verify: (bloc) {
           verify(mockGetTopRatedTvs.execute());
         });

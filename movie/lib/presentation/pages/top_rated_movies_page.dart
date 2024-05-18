@@ -7,16 +7,10 @@ class TopRatedMoviesPage extends StatefulWidget {
   const TopRatedMoviesPage({super.key});
 
   @override
-  _TopRatedMoviesPageState createState() => _TopRatedMoviesPageState();
+  State<TopRatedMoviesPage> createState() => _TopRatedMoviesPageState();
 }
 
 class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() => context.read<MovieTopRatedBloc>().add(const OnFetchTopRatedMovies()));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,5 +45,11 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => context.read<MovieTopRatedBloc>().add(const OnFetchTopRatedMovies()));
   }
 }

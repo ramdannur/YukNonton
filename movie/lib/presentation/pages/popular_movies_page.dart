@@ -7,16 +7,10 @@ class PopularMoviesPage extends StatefulWidget {
   const PopularMoviesPage({super.key});
 
   @override
-  _PopularMoviesPageState createState() => _PopularMoviesPageState();
+  State<PopularMoviesPage> createState() => _PopularMoviesPageState();
 }
 
 class _PopularMoviesPageState extends State<PopularMoviesPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() => context.read<MoviePopularBloc>().add(const OnFetchPopularMovies()));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,5 +44,11 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => context.read<MoviePopularBloc>().add(const OnFetchPopularMovies()));
   }
 }

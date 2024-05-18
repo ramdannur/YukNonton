@@ -25,34 +25,28 @@ void main() {
       expect(bloc.state, OnAiringTvEmpty());
     });
 
-    blocTest<TvOnAiringBloc, TvOnAiringState>(
-        'Should emit [Loading, HasData] when data is gotten successfully',
+    blocTest<TvOnAiringBloc, TvOnAiringState>('Should emit [Loading, HasData] when data is gotten successfully',
         build: () {
-          when(mockGetNowPlayingTvs.execute())
-              .thenAnswer((_) async => Right(tvs));
-
-          return bloc;
-        },
-        act: (_bloc) => _bloc.add(const OnFetchOnAiringTv()),
-        wait: const Duration(microseconds: 100),
-        expect: () =>
-            [OnAiringTvLoading(), OnAiringTvHasData(tvs)],
-        verify: (bloc) {
-          verify(mockGetNowPlayingTvs.execute());
-        });
-
-    blocTest<TvOnAiringBloc, TvOnAiringState>(
-        'Should emit [Loading, Error] when failed',
-        build: () {
-          when(mockGetNowPlayingTvs.execute())
-              .thenAnswer((_) async => Left(ServerFailure("server error")));
+          when(mockGetNowPlayingTvs.execute()).thenAnswer((_) async => Right(tvs));
 
           return bloc;
         },
         act: (bloc) => bloc.add(const OnFetchOnAiringTv()),
         wait: const Duration(microseconds: 100),
-        expect: () =>
-            [OnAiringTvLoading(), const OnAiringTvError("server error")],
+        expect: () => [OnAiringTvLoading(), OnAiringTvHasData(tvs)],
+        verify: (bloc) {
+          verify(mockGetNowPlayingTvs.execute());
+        });
+
+    blocTest<TvOnAiringBloc, TvOnAiringState>('Should emit [Loading, Error] when failed',
+        build: () {
+          when(mockGetNowPlayingTvs.execute()).thenAnswer((_) async => const Left(ServerFailure("server error")));
+
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const OnFetchOnAiringTv()),
+        wait: const Duration(microseconds: 100),
+        expect: () => [OnAiringTvLoading(), const OnAiringTvError("server error")],
         verify: (bloc) {
           verify(mockGetNowPlayingTvs.execute());
         });

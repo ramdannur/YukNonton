@@ -8,6 +8,7 @@ abstract class WatchlistMovieState extends Equatable {
 }
 
 class WatchlistMovieEmpty extends WatchlistMovieState {}
+
 class WatchlistMovieLoading extends WatchlistMovieState {}
 
 class WatchlistMovieError extends WatchlistMovieState {

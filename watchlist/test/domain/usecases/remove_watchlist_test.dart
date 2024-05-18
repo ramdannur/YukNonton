@@ -16,24 +16,22 @@ void main() {
   test('should remove watchlist movie from repository', () async {
     // arrange
     final usecase = RemoveWatchlist(mockWatchlistRepository);
-    when(mockWatchlistRepository.removeFromWatchlist(testWatchlist))
-        .thenAnswer((_) async => Right('Removed from watchlist'));
+    when(mockWatchlistRepository.removeFromWatchlist(testWatchlist)).thenAnswer((_) async => const Right('Removed from watchlist'));
     // act
     final result = await usecase.execute(testWatchlist);
     // assert
     verify(mockWatchlistRepository.removeFromWatchlist(testWatchlist));
-    expect(result, Right('Removed from watchlist'));
+    expect(result, const Right('Removed from watchlist'));
   });
 
   test('should remove watchlist tv from repository', () async {
     // arrange
     final usecase = RemoveWatchlist(mockWatchlistRepository);
-    when(mockWatchlistRepository.removeFromWatchlist(testWatchlist))
-        .thenAnswer((_) async => Right('Removed from watchlist'));
+    when(mockWatchlistRepository.removeFromWatchlist(testWatchlist)).thenAnswer((_) async => const Right('Removed from watchlist'));
     // act
     final result = await usecase.execute(testWatchlist);
     // assert
     verify(mockWatchlistRepository.removeFromWatchlist(testWatchlist));
-    expect(result, Right('Removed from watchlist'));
+    expect(result, const Right('Removed from watchlist'));
   });
 }

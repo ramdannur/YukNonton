@@ -2,14 +2,13 @@ import 'package:core/common/domain/entities/genre.dart';
 import 'package:movie/domain/entities/movie.dart';
 import 'package:movie/domain/entities/movie_detail.dart';
 
-final testMovie = Movie(
+const testMovie = Movie(
   adult: false,
   backdropPath: '/muth4OYamXf41G2evdrLEg8d3om.jpg',
-  genreIds: const [14, 28],
+  genreIds: [14, 28],
   id: 557,
   originalTitle: 'Spider-Man',
-  overview:
-      'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+  overview: 'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
   popularity: 60.441,
   posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
   releaseDate: '2002-05-01',
@@ -19,9 +18,7 @@ final testMovie = Movie(
   voteCount: 13507,
 );
 
-final testMovieList = [testMovie];
-
-final testMovieDetail = MovieDetail(
+const testMovieDetail = MovieDetail(
   adult: false,
   backdropPath: 'backdropPath',
   genres: [Genre(id: 1, name: 'Action')],
@@ -36,24 +33,17 @@ final testMovieDetail = MovieDetail(
   voteCount: 1,
 );
 
-final testWatchlistMovie = Movie.watchlist(
+const testWatchlistMovie = Movie.watchlist(
   id: 1,
   title: 'title',
   posterPath: 'posterPath',
   overview: 'overview',
 );
 
-final testMovieMap = {
-  'id': 1,
-  'overview': 'overview',
-  'posterPath': 'posterPath',
-  'title': 'title',
-};
-
-final tMovie = Movie(
+const tMovie = Movie(
   adult: false,
   backdropPath: 'backdropPath',
-  genreIds: const [1, 2, 3],
+  genreIds: [1, 2, 3],
   id: 1,
   originalTitle: 'originalTitle',
   overview: 'overview',
@@ -65,4 +55,13 @@ final tMovie = Movie(
   voteAverage: 1,
   voteCount: 1,
 );
+
+final testMovieList = [testMovie];
+
+final testMovieMap = {
+  'id': 1,
+  'overview': 'overview',
+  'posterPath': 'posterPath',
+  'title': 'title',
+};
 final tMovieList = <Movie>[tMovie];

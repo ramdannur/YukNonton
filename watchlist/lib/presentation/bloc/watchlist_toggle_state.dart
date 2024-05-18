@@ -8,12 +8,15 @@ abstract class WatchlistToggleState extends Equatable {
 }
 
 class AddWatchlistSuccess extends WatchlistToggleState {}
+
 class AddWatchlistFailed extends WatchlistToggleState {}
 
 class RemoveWatchlistSuccess extends WatchlistToggleState {}
+
 class RemoveWatchlistFailed extends WatchlistToggleState {}
 
 class WatchlistStatusLoading extends WatchlistToggleState {}
+
 class WatchlistStatusFetched extends WatchlistToggleState {
   final bool watchlistStatus;
 

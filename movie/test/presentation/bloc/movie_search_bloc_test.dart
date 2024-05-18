@@ -20,41 +20,35 @@ void main() {
     bloc = MovieSearchBloc(mockSearchMovies);
   });
 
-  final query = "Best Movie";
+  const query = "Best Movie";
 
   group('Search Movie', () {
     test('initial state should be empty', () {
       expect(bloc.state, SearchMoviesEmpty());
     });
 
-    blocTest<MovieSearchBloc, MovieSearchState>(
-        'Should emit [Loading, HasData] when data is gotten successfully',
+    blocTest<MovieSearchBloc, MovieSearchState>('Should emit [Loading, HasData] when data is gotten successfully',
         build: () {
-          when(mockSearchMovies.execute(query))
-              .thenAnswer((_) async => Right(tMovieList));
+          when(mockSearchMovies.execute(query)).thenAnswer((_) async => Right(tMovieList));
 
           return bloc;
         },
-        act: (bloc) => bloc.add(OnSearchMovies(query)),
+        act: (bloc) => bloc.add(const OnSearchMovies(query)),
         wait: const Duration(microseconds: 500),
-        expect: () =>
-            [SearchMoviesLoading(), SearchMoviesHasData(tMovieList)],
+        expect: () => [SearchMoviesLoading(), SearchMoviesHasData(tMovieList)],
         verify: (bloc) {
           verify(mockSearchMovies.execute(query));
         });
 
-    blocTest<MovieSearchBloc, MovieSearchState>(
-        'Should emit [Loading, Error] when failed',
+    blocTest<MovieSearchBloc, MovieSearchState>('Should emit [Loading, Error] when failed',
         build: () {
-          when(mockSearchMovies.execute(query))
-              .thenAnswer((_) async => Left(ServerFailure("server error")));
+          when(mockSearchMovies.execute(query)).thenAnswer((_) async => const Left(ServerFailure("server error")));
 
           return bloc;
         },
-        act: (bloc) => bloc.add(OnSearchMovies(query)),
+        act: (bloc) => bloc.add(const OnSearchMovies(query)),
         wait: const Duration(microseconds: 500),
-        expect: () =>
-            [SearchMoviesLoading(), const SearchMoviesError("server error")],
+        expect: () => [SearchMoviesLoading(), const SearchMoviesError("server error")],
         verify: (bloc) {
           verify(mockSearchMovies.execute(query));
         });

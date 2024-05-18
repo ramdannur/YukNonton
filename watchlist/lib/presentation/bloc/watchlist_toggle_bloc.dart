@@ -8,25 +8,25 @@ import 'package:watchlist/domain/usecases/save_watchlist.dart';
 part 'watchlist_toggle_event.dart';
 part 'watchlist_toggle_state.dart';
 
-class WatchlistToggleBloc extends Bloc<WatchlistToggleEvent, WatchlistToggleState>{
+class WatchlistToggleBloc
+    extends Bloc<WatchlistToggleEvent, WatchlistToggleState> {
   final GetWatchlistStatus _getWatchListStatus;
   final SaveWatchlist _saveWatchlist;
   final RemoveWatchlist _removeWatchlist;
 
-  WatchlistToggleBloc(this._getWatchListStatus, this._saveWatchlist, this._removeWatchlist) : super(const WatchlistStatusFetched(false)) {
+  WatchlistToggleBloc(
+      this._getWatchListStatus, this._saveWatchlist, this._removeWatchlist)
+      : super(const WatchlistStatusFetched(false)) {
     on<OnAddWatchlist>((event, emit) async {
       final watchlist = event.watchlist;
 
       final result = await _saveWatchlist.execute(watchlist);
 
-      result.fold(
-              (failure) {
-            emit(AddWatchlistFailed());
-          },
-              (successMessage) {
-            emit(AddWatchlistSuccess());
-          }
-      );
+      result.fold((failure) {
+        emit(AddWatchlistFailed());
+      }, (successMessage) {
+        emit(AddWatchlistSuccess());
+      });
 
       add(OnGetWatchlistStatus(watchlist.id));
     });
@@ -36,14 +36,11 @@ class WatchlistToggleBloc extends Bloc<WatchlistToggleEvent, WatchlistToggleStat
 
       final result = await _removeWatchlist.execute(watchlist);
 
-      result.fold(
-              (failure) {
-            emit(RemoveWatchlistFailed());
-          },
-              (successMessage) {
-            emit(RemoveWatchlistSuccess());
-          }
-      );
+      result.fold((failure) {
+        emit(RemoveWatchlistFailed());
+      }, (successMessage) {
+        emit(RemoveWatchlistSuccess());
+      });
 
       add(OnGetWatchlistStatus(watchlist.id));
     });

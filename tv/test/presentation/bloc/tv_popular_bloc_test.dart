@@ -25,34 +25,28 @@ void main() {
       expect(bloc.state, PopularTvsEmpty());
     });
 
-    blocTest<TvPopularBloc, TvPopularState>(
-        'Should emit [Loading, HasData] when data is gotten successfully',
+    blocTest<TvPopularBloc, TvPopularState>('Should emit [Loading, HasData] when data is gotten successfully',
         build: () {
-          when(mockGetPopularTvs.execute())
-              .thenAnswer((_) async => Right(tvs));
+          when(mockGetPopularTvs.execute()).thenAnswer((_) async => Right(tvs));
 
           return bloc;
         },
         act: (bloc) => bloc.add(const OnFetchPopularTvs()),
         wait: const Duration(microseconds: 100),
-        expect: () =>
-            [PopularTvsLoading(), PopularTvsHasData(tvs)],
+        expect: () => [PopularTvsLoading(), PopularTvsHasData(tvs)],
         verify: (bloc) {
           verify(mockGetPopularTvs.execute());
         });
 
-    blocTest<TvPopularBloc, TvPopularState>(
-        'Should emit [Loading, Error] when failed',
+    blocTest<TvPopularBloc, TvPopularState>('Should emit [Loading, Error] when failed',
         build: () {
-          when(mockGetPopularTvs.execute())
-              .thenAnswer((_) async => Left(ServerFailure("server error")));
+          when(mockGetPopularTvs.execute()).thenAnswer((_) async => const Left(ServerFailure("server error")));
 
           return bloc;
         },
         act: (bloc) => bloc.add(const OnFetchPopularTvs()),
         wait: const Duration(microseconds: 100),
-        expect: () =>
-            [PopularTvsLoading(), const PopularTvsError("server error")],
+        expect: () => [PopularTvsLoading(), const PopularTvsError("server error")],
         verify: (bloc) {
           verify(mockGetPopularTvs.execute());
         });

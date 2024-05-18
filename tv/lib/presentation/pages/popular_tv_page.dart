@@ -7,17 +7,10 @@ class PopularTvPage extends StatefulWidget {
   const PopularTvPage({super.key});
 
   @override
-  _PopularTvPageState createState() => _PopularTvPageState();
+  State<PopularTvPage> createState() => _PopularTvPageState();
 }
 
 class _PopularTvPageState extends State<PopularTvPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(
-        () => context.read<TvPopularBloc>().add(const OnFetchPopularTvs()));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,5 +45,11 @@ class _PopularTvPageState extends State<PopularTvPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => context.read<TvPopularBloc>().add(const OnFetchPopularTvs()));
   }
 }
